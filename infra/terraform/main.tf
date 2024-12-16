@@ -19,7 +19,6 @@ resource "google_compute_subnetwork" "new_subnet" {
   }
 }
 
-
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = var.zone
