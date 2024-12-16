@@ -155,6 +155,16 @@ dmypy.json
 cython_debug/
 
 .vscode
+
+# Terraform
+/infra/terraform/.terraform/
+/infra/terraform/.terraform.lock.hcl
+/infra/terraform/terraform.tfstate
+/infra/terraform/terraform.tfstate.*
+/infra/terraform/tfplan
+
+
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

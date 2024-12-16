@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dms-dev
+  labels:
+    app: dms-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dms-dev
+  template:
+    metadata:
+      labels:
+        app: dms-dev
+    spec:
+      containers:
+        - name: dms-dev
+          image: gcr.io/dms-dev-444818/dms-dev:latest
+          ports:
+            - containerPort: 5000
