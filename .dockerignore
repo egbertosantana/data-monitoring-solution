@@ -1,0 +1,42 @@
+# Ignore the Dockerfile itself
+Dockerfile
+
+# Ignore Python virtual environment folder
+venv/
+.env/
+
+# Ignore version control files
+.git/
+
+# Ignore cache files and logs
+*.log
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore temporary files or directories
+tmp/
+build/
+dist/
+
+# Ignore IDE/editor-specific files
+.idea/
+.vscode/
+
+# Ignore configuration files that aren't needed in the container
+*.yml
+*.yaml
+*.md
+
+# Ignore test directories or test files
+tests/
+*.test
+*.spec
+
+# Ignore any local database files or other data that doesn't need to be in the image
+*.sqlite3
+*.db
+
+# Ignore any Docker-specific files or directories
+.dockerignore
+.docker-compose.yml
