@@ -88,3 +88,4 @@ class CentrifugalPump(db.Model):
     def deactivate():
         CentrifugalPump.set_enabled_status(False)
 
+
