@@ -1,4 +1,3 @@
-# Create the primary PostgreSQL instance
 resource "google_sql_database_instance" "postgres_instance" {
   name             = "dms-postgres-instance"
   database_version = "POSTGRES_13"
@@ -17,20 +16,17 @@ resource "google_sql_database_instance" "postgres_instance" {
   }
 }
 
-# Create the PostgreSQL database in the primary instance
 resource "google_sql_database" "database" {
   name     = "dms-db"
   instance = google_sql_database_instance.postgres_instance.name
 }
 
-# Create the user for PostgreSQL
 resource "google_sql_user" "default" {
   name     = "dms-admin"
   instance = google_sql_database_instance.postgres_instance.name
   password = "secret"
 }
 
-# Create a read replica of the primary PostgreSQL instance
 resource "google_sql_database_instance" "postgres_replica" {
   name             = "dms-postgres-replica-instance"
   database_version = "POSTGRES_13"

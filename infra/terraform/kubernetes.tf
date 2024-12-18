@@ -1,10 +1,8 @@
-# Enable the Container Registry API
 resource "google_project_service" "container_registry" {
   project = var.project_id
   service = "containerregistry.googleapis.com"
 }
 
-# (Optional) Create a Google Cloud Storage bucket for Container Registry
 resource "google_storage_bucket" "gcr_bucket" {
   name          = "gcr-${var.project_id}"
   location      = "US"
@@ -15,7 +13,7 @@ resource "google_storage_bucket" "gcr_bucket" {
 resource "kubernetes_service_account" "dms_kb_sa" {
   metadata {
     name      = "dms-kb-sa"
-    namespace = "default"  # You can change this to another namespace if needed
+    namespace = "default"
   }
 }
 
