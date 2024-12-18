@@ -1,0 +1,16 @@
+apiVersion: v2
+name: dms-dev-app
+description: A Helm chart for deploying the Data Monitoring Solution (DMS) application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - flask
+  - monitoring
+  - kubernetes
+  - grafana
+  - prometheus
+maintainers:
+  - name: Your Name
+    email: egbertosantanaperson@gmail.com
+sources:
+  - https://github.com/egbertosantana/data-monitoring-solution
