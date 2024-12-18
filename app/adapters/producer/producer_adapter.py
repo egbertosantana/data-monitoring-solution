@@ -7,7 +7,7 @@ from app.services.centrifugal_pump_register_service import CentrifugalPumpRegist
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
-class ProducerService:
+class ProducerAdapter:
     def __init__(self, interval: int = 10):
         self.interval = interval
         self.thread = None

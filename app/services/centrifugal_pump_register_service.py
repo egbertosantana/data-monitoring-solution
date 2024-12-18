@@ -1,5 +1,3 @@
-# services/centrifugal_pump_register_service.py
-
 import logging
 import random
 from app.repository.centrifugal_pump_register_repository import CentrifugalPumpRegisterRepository
@@ -7,7 +5,6 @@ from app.models.centrifugal_pump_register import CentrifugalPumpRegister
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
-
 
 class CentrifugalPumpRegisterService:
 

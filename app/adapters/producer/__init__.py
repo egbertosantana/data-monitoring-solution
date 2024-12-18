@@ -1,1 +1,1 @@
-from .producer_service import ProducerService
+from .producer_adapter import ProducerAdapter

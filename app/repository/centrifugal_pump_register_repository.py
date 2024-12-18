@@ -2,7 +2,6 @@ from app.adapters.database import db
 from app.models.centrifugal_pump import CentrifugalPump
 from app.models.centrifugal_pump_register import CentrifugalPumpRegister
 
-
 class CentrifugalPumpRegisterRepository:
     @staticmethod
     def get_all_enabled_pumps():
