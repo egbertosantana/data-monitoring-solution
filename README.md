@@ -139,3 +139,14 @@ kubectl apply -f infra/deploy/service.yaml
 ```
 docker run -it gcr.io/dms-dev-444818/dms-dev:latest
 ```
+### Improvements to the Solution
+
+##### 1. Deliver the entire architecture proposed by the High Level Architecture image
+##### 2. Create CI/CD Pipelines (github workflows) for deploying and managing infrastructure as code, the application via helmchart to facilitate the kubernetes deployment process, deployment database migration via liquibase.
+##### 3. Create unit tests for infrastructure as code
+##### 4. Integrate grafana/prometheus into deployment.
+##### 5. Add indexes, caching to the postgres database for performance.
+##### 6. Create the secrets manager service for deploying secrets.
+##### 7. Create bigquery on GCP to manage high amount of data.
+##### 8. Create Cloud composer with airflow to facilitate the execution of services to store and consume data on bigquery.
+##### 9. Fix the unit tests that are failing and integrate it into the CI/CD deployment pipeline.
