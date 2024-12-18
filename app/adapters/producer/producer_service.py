@@ -3,7 +3,7 @@ import time
 import logging
 from threading import Lock
 from app.services.centrifugal_pump_service import CentrifugalPumpService
-from app.services.pump_data_service import PumpDataService
+from app.services.centrifugal_pump_register_service import CentrifugalPumpRegisterService
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -16,7 +16,7 @@ class ProducerService:
 
         # Dependency Injection of service classes
         self.centrifugal_pump_service = CentrifugalPumpService()
-        self.pump_data_service = PumpDataService()
+        self.centrifugal_pump_register_service = CentrifugalPumpRegisterService()
 
     def start(self):
         with self._lock:
@@ -48,7 +48,7 @@ class ProducerService:
                 time.sleep(self.interval)
 
     def _generate_pump_data(self):
-        self.pump_data_service.generate_pump_data()
+        self.centrifugal_pump_register_service.produce_random_data()
 
     def _activate_centrifugal_pump(self):
         self.centrifugal_pump_service.activate_pumps()

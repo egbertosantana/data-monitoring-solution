@@ -24,19 +24,19 @@ class CentrifugalPump(db.Model):
     updated_at = db.Column(db.DateTime)
 
     def __repr__(self):
-        return (f"<CentrifugalPump(id={self.id}, maximum_temperature={self.maximum_temperature}, "
-                f"minimum_head={self.minimum_head}, maximum_head={self.maximum_head}, "
-                f"maximum_flow={self.maximum_flow}, motor_voltage={self.motor_voltage}, "
-                f"discharge_diameter={self.discharge_diameter}, suction_diameter={self.suction_diameter}, "
-                f"impeller='{self.impeller}', impeller_material='{self.impeller_material}', "
-                f"motor_frequency={self.motor_frequency}, current_water_leak={self.current_water_leak}, "
-                f"enabled={self.enabled})>")
+        return (
+            f"<CentrifugalPump(id={self.id}, max_temp={self.maximum_temperature}, "
+            f"min_head={self.minimum_head}, max_head={self.maximum_head}, "
+            f"max_flow={self.maximum_flow}, motor_voltage={self.motor_voltage}, "
+            f"discharge_dia={self.discharge_diameter}, suction_dia={self.suction_diameter}, "
+            f"impeller={self.impeller}, material={self.impeller_material}, "
+            f"frequency={self.motor_frequency}, leak={self.current_water_leak}, "
+            f"enabled={self.enabled})>"
+        )
 
-    
     @staticmethod
     def populate():
-        brands = ["Ferrari", "Grundfos", "KSB", "Schneider", "Thebe", "Ebara", "Heliotek"]
-        impeller_map = {
+        brands = {
             "Ferrari": ["Closed", "Open"],
             "Grundfos": ["Semi-open", "Closed"],
             "KSB": ["Open", "Closed", "Semi-open"],
@@ -47,66 +47,44 @@ class CentrifugalPump(db.Model):
         }
 
         pumps = []
-        for brand in brands:
-            brand_entity = Brand.query.filter_by(name=brand).first()
-            impeller_type = random.choice(impeller_map[brand])
+        for brand_name, impeller_types in brands.items():
+            brand_entity = Brand.query.filter_by(name=brand_name).first()
+            if not brand_entity:
+                print(f"Warning: Brand {brand_name} not found in the database.")
+                continue
 
-            pump = CentrifugalPump(
-                maximum_temperature=round(random.uniform(50.0, 150.0), 2),
-                minimum_head=round(random.uniform(5.0, 20.0), 2),
-                maximum_head=round(random.uniform(30.0, 60.0), 2),
-                maximum_flow=round(random.uniform(1000.0, 5000.0), 2),
-                motor_voltage=random.choice([220, 380, 415]),
-                discharge_diameter=round(random.uniform(50.0, 200.0), 2),
-                suction_diameter=round(random.uniform(50.0, 200.0), 2),
-                impeller=impeller_type,
-                impeller_material=random.choice(["Stainless Steel", "Bronze", "Cast Iron", "Plastic"]),
-                motor_frequency=round(random.uniform(50.0, 60.0), 2),
-                brand=brand_entity
-            )
-            existing_pump = CentrifugalPump.query.filter_by(brand_id=brand_entity.id).first()
-            
-            if not existing_pump:
+            if not CentrifugalPump.query.filter_by(brand_id=brand_entity.id).first():
+                pump = CentrifugalPump(
+                    maximum_temperature=round(random.uniform(50.0, 150.0), 2),
+                    minimum_head=round(random.uniform(5.0, 20.0), 2),
+                    maximum_head=round(random.uniform(30.0, 60.0), 2),
+                    maximum_flow=round(random.uniform(1000.0, 5000.0), 2),
+                    motor_voltage=random.choice([220, 380, 415]),
+                    discharge_diameter=round(random.uniform(50.0, 200.0), 2),
+                    suction_diameter=round(random.uniform(50.0, 200.0), 2),
+                    impeller=random.choice(impeller_types),
+                    impeller_material=random.choice(["Stainless Steel", "Bronze", "Cast Iron", "Plastic"]),
+                    motor_frequency=round(random.uniform(50.0, 60.0), 2),
+                    brand=brand_entity
+                )
                 pumps.append(pump)
 
         db.session.add_all(pumps)
         db.session.commit()
-        print(f"{len(pumps)} Random Centrifugal Pumps generated and added to the database!")
+        print(f"{len(pumps)} random centrifugal pumps generated and added to the database!")
 
-    def map(self):
-        return {
-            "id": self.id,
-            "maximum_temperature": self.maximum_temperature,
-            "minimum_head": self.minimum_head,
-            "maximum_head": self.maximum_head,
-            "maximum_flow": self.maximum_flow,
-            "motor_voltage": self.motor_voltage,
-            "discharge_diameter": self.discharge_diameter,
-            "suction_diameter": self.suction_diameter,
-            "impeller": self.impeller,
-            "impeller_material": self.impeller_material,
-            "motor_frequency": self.motor_frequency,
-            "current_water_leak": self.current_water_leak,
-            "enabled": self.enabled,
-            "brand": self.brand.name if self.brand else None,  # Accessing brand name
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None
-        }
-    
+    @staticmethod
+    def set_enabled_status(enabled: bool):
+        pumps = CentrifugalPump.query.all()
+        for pump in pumps:
+            pump.enabled = enabled
+        db.session.commit()
+
     @staticmethod
     def activate():
-        pumps = CentrifugalPump.query.all()
-
-        for pump in pumps:
-            pump.enabled = True
-        
-        db.session.commit()
+        CentrifugalPump.set_enabled_status(True)
 
     @staticmethod
     def deactivate():
-        pumps = CentrifugalPump.query.all()
+        CentrifugalPump.set_enabled_status(False)
 
-        for pump in pumps:
-            pump.enabled = False
-        
-        db.session.commit()
